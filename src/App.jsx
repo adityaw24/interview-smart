@@ -1,8 +1,5 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
-import { InputGroup } from "./components/ui/input-group";
 import { Button, Card, Input, Stack } from "@chakra-ui/react";
 
 function App() {
@@ -14,6 +11,10 @@ function App() {
     difference: 0,
   };
   const [result, setResult] = useState(initResult);
+
+  const [resultFizzBuzz, setResultFizzBuzz] = useState([]);
+
+  const [resultFibonacci, setResultFibonacci] = useState([]);
 
   function handleInput(e) {
     //please put your logic here
@@ -54,6 +55,56 @@ function App() {
     }));
   };
 
+  const printFizzBuzz = (num) => {
+    if (num) {
+      if (num % 3 === 0 && num % 5 === 0) {
+        return "FizzBuzz";
+      } else if (num % 3 === 0) {
+        return "Fizz";
+      } else if (num % 5 === 0) {
+        return "Buzz";
+      }
+    }
+    return num;
+  };
+
+  const fizzBuzz = (num) => {
+    let result = [];
+
+    if (num) {
+      for (let i = 1; i <= Number(num); i++) {
+        result.push(printFizzBuzz(i));
+      }
+    }
+    setResultFizzBuzz(result);
+    return result;
+  };
+
+  const fibonacci = (num) => {
+    const result = [];
+
+    let a = 0;
+    let b = 1;
+    if (num) {
+      for (let i = 0; i < Number(num); i++) {
+        result.push(printFizzBuzz(Number(a)));
+        const c = a + b;
+        a = b;
+        b = c;
+      }
+
+      // result.map((item) => printFizzBuzz(Number(item)));
+    }
+    // console.log(result);
+    setResultFibonacci(result);
+    return result;
+  };
+
+  useEffect(() => {
+    fizzBuzz(result.difference);
+    fibonacci(result.difference);
+  }, [result.difference]);
+
   return (
     <>
       <Stack gap={8}>
@@ -81,6 +132,12 @@ function App() {
             </Card.Description>
             <Card.Description>
               Difference Number: {result.difference}
+            </Card.Description>
+            <Card.Description>
+              Fizzbuzz Number: {resultFizzBuzz.join(", ")}
+            </Card.Description>
+            <Card.Description>
+              Fibonacci Number: {resultFibonacci.join(", ")}
             </Card.Description>
           </Card.Body>
         </Card.Root>
